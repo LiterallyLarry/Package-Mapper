@@ -220,6 +220,7 @@ function geocity(city,retry) {
 		}
 		else if (data["status"] == "OVER_QUERY_LIMIT") {
 			console.log("warning: Google API ratelimit!");
+			console.log("warning: Google API ratelimit! : " + data["error_message"]);
             		cancelPhase = true;
 			setTimeout(geocity, 3000, city, true);
 		}
@@ -227,14 +228,14 @@ function geocity(city,retry) {
 			delete working[realname];
 		}
 		else {
-			console.log("error: "+realname);
+			console.log("error: " + realname);
 			console.dir(data);
 			delete working[realname];
 		}
 		if ( Object.keys(working).length == 0 && !cancelPhase ) {
 			phaseTwo();
 		}
-	}, geoapikey);
+	}, { key: geoapikey });
 }
 
 function nextLevel() {
