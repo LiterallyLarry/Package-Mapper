@@ -304,6 +304,8 @@ function round(number,decimals) {
 var count_start = false;
 var count_stat = 0;
 
+var countdown_timer;
+
 function refreshCountdown() {
 	if (count_start) {
 		count_stat++;
@@ -332,7 +334,8 @@ function refreshCountdown() {
 	getXML();
 	}
 	else {
-	setTimeout(refreshCountdown, 1000);
+	clearTimeout(countdown_timer);
+	countdown_timer = setTimeout(refreshCountdown, 1000);
 	}
 }
 
@@ -343,7 +346,7 @@ function phaseTwo() {
 	var count = 0;
 	var countid = 1;
 	for (var tracking in city_step) {
-		log2.log("Package #"+countid+":");
+		log2.log("Package #"+countid+" :");
 		var current_city_name = "N/A";
 		var current_city_location = [];
 		for (var city in city_step[tracking]) {
@@ -380,11 +383,17 @@ function phaseTwo() {
 	log2.select(log2_pos);
 	screen.render();
 	log.focus();
-	refreshCountdown(maparray);
+	clearTimeout(countdown_timer);
+	countdown_timer = refreshCountdown(maparray);
 }
 
 getXML();
 
+screen.key(['r'], function(ch, key) {
+    clearTimeout(countdown_timer);
+    reengage();
+    getXML();
+});
 screen.key(['down'], function(ch, key) {
     log.interactive = true;
     count_stat = 0;
