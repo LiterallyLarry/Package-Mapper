@@ -133,7 +133,7 @@ function parseXML(data) {
 }
 
 function regex_city(string){
-	var regexes = [ /Your item has left our acceptance facility .* in (.*)\./g , /Your item .* at our (.*?) origin .*/g , /Your item .* in (.*?) (?:at|on) .*/g , /Your item .* in (.*?)\./g , /Your item was .* in (.*?). This does not .*/g , /Your item was delivered .* in (.*) to .*/g , /Your item was .* in (.*) .*/g , /Your item departed .* in (.*) on .*/g , /Your item arrived .* our (.*) destination .*/g , /Your item arrived at the Post Office .* in (.*)./g , /Accepted at USPS Destination Facility, .*m, (.*)/g , /(?:Picked|Shipping|Processed|Acceptance|Arrived|Available).*m, (.*)/g , /A shipping .* in (.*)\. .*/g];
+	var regexes = [ /Your item has left our acceptance facility .* in (.*)\./g , /Your item .* at our (.*?) (?:origin|destination) .*/g , /Your item .* in (.*?) (?:at|on) .*/g , /Your item .* in (.*?)\./g , /Your item was .* in (.*?). This does not .*/g , /Your item was delivered .* in (.*) to .*/g , /Your item was .* in (.*) .*/g , /Your item departed .* in (.*) on .*/g , /Your item arrived .* our (.*) destination .*/g , /Your item arrived at the Post Office .* in (.*)./g , /Accepted at USPS Destination Facility, .*m, (.*)/g , /(?:Picked|Shipping|Processed|Acceptance|Arrived|Available).*m, (.*)\(/g , /(?:Picked|Shipping|Processed|Acceptance|Arrived|Available).*m, (.*)/g , /A shipping .* in (.*)\. .*/g , /USPS is now in .* on .* in (.*)\./g];
 	for (var regex in regexes) {
 		var match = regexes[regex].exec(string);
 		if (match) {
@@ -220,7 +220,7 @@ function geocity(city,retry) {
 		}
 		else if (data["status"] == "OVER_QUERY_LIMIT") {
 			console.log("warning: Google API ratelimit!");
-            cancelPhase = true;
+            		cancelPhase = true;
 			setTimeout(geocity, 3000, city, true);
 		}
 		else if (data["status"] == "ZERO_RESULTS") {
